@@ -12,23 +12,67 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r wordle}
-library(dply)
+library(dplyr)
 library(tidyverse)
-library(curl)
 
-words1<-"https://raw.githubusercontent.com/ajnafkertesz/ada-2022-datasets/blob/main/collins-scrabble-words-2019.txt"
-w1<-read_txt(words1, col_names=T)
+words1<-"https://raw.githubusercontent.com/ajnafkertesz/ada-2022-datasets/main/collins-scrabble-words-2019.txt"
+w1<-read_csv(words1, col_names=T)
+
+str(w1)
+v<-w1$words
+
+words2<-"https://raw.githubusercontent.com/ajnafkertesz/ada-2022-datasets/main/google-10000-english-usa-no-swears.txt"
+w2<-read_csv(words2, col_names=T)
+str(w2)
+v<-w2$words
 
 
-words1<-curl("https://raw.githubusercontent.com/ajnafkertesz/ada-2022-datasets/blob/main/collins-scrabble-words-2019.txt")
-w1 <- read.csv(words1, header = TRUE, sep = ",", stringsAsFactors = FALSE)
 
 
-words2<-"https://github.com/ajnafkertesz/ada-2022-datasets/blob/main/google-10000-english-usa-no-swears.txt"
 
-allwords<- merge (words1, words2,by =words)
 
-words1
 
+
+
+my_function<-function(x,reps =2) {
+  for (i in 1:reps){
+    print(x)
+  }
+  for(i in 1:nrow(x)){
+    print(x[i,])
+  }
+  return(NULL)
+}
+
+df<-data.frame(rowid= 1:15, value=c("a","b","c","d","e"))
+
+my_function(df)
+
+new_df<-my_function(df)
+
+new_df
+
+new1_function<- function(x, condition){
+  library(tidyverse)
+  x<-x%>% filter(value%in% condition)
+  return(x)
+}
+
+new1_function(df)
+new1_function(df, condition=c("c","e"))
+              
+              
+
+new_function<- function(x, condition, variable){
+  library(tidyverse)
+  x<-x%>% filter(value%in% condition)
+  return(x)
+}
+
+new_function(df, condition=c("c","e"), variable="value")
+
+newer_df<- new_function(df, condition=c("c","e"), variable="value")
+
+newer_df
 
 ```
