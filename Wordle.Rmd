@@ -17,7 +17,6 @@ library(tidyverse)
 
 words1<-"https://raw.githubusercontent.com/ajnafkertesz/ada-2022-datasets/main/collins-scrabble-words-2019.txt"
 w1<-read_csv(words1, col_names=T)
-
 str(w1)
 v<-w1$words
 
@@ -27,52 +26,15 @@ str(w2)
 v<-w2$words
 
 
+#create function to load dictionary
 
-
-
-
-
-
-
-my_function<-function(x,reps =2) {
-  for (i in 1:reps){
-    print(x)
-  }
-  for(i in 1:nrow(x)){
-    print(x[i,])
-  }
-  return(NULL)
+load_dictionary<-function(f){
+  d<-read_csv(f, col_names = T)
+  d<-d$words
+  return(d)
 }
-
-df<-data.frame(rowid= 1:15, value=c("a","b","c","d","e"))
-
-my_function(df)
-
-new_df<-my_function(df)
-
-new_df
-
-new1_function<- function(x, condition){
-  library(tidyverse)
-  x<-x%>% filter(value%in% condition)
-  return(x)
-}
-
-new1_function(df)
-new1_function(df, condition=c("c","e"))
-              
-              
-
-new_function<- function(x, condition, variable){
-  library(tidyverse)
-  x<-x%>% filter(value%in% condition)
-  return(x)
-}
-
-new_function(df, condition=c("c","e"), variable="value")
-
-newer_df<- new_function(df, condition=c("c","e"), variable="value")
-
-newer_df
+  
+valid_list<- load_dictionary(words1)
+solution_list<-load_dictionary(words2)
 
 ```
