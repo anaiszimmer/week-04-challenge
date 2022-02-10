@@ -12,4 +12,23 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r wordle}
+library(dply)
+library(tidyverse)
+library(curl)
+
+words1<-"https://raw.githubusercontent.com/ajnafkertesz/ada-2022-datasets/blob/main/collins-scrabble-words-2019.txt"
+w1<-read_txt(words1, col_names=T)
+
+
+words1<-curl("https://raw.githubusercontent.com/ajnafkertesz/ada-2022-datasets/blob/main/collins-scrabble-words-2019.txt")
+w1 <- read.csv(words1, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+
+
+words2<-"https://github.com/ajnafkertesz/ada-2022-datasets/blob/main/google-10000-english-usa-no-swears.txt"
+
+allwords<- merge (words1, words2,by =words)
+
+words1
+
+
 ```
