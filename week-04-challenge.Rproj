@@ -10,4 +10,11 @@ NumSpacesForTab: 2
 Encoding: UTF-8
 
 RnwWeave: Sweave
+<<<<<<< HEAD
 LaTeX: pdfLaTeX
+=======
+LaTeX: XeLaTeX
+
+AutoAppendNewline: Yes
+StripTrailingWhitespace: Yes
+>>>>>>> a0d396d54817e1c38ae5cc6bb28991cee44de529
