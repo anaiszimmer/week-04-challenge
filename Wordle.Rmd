@@ -56,18 +56,35 @@ str(solution_list)
 
 ##step 3
 
-#create a function that
+#create a function pick_solution() that
 # [1] removes all words from solution_list that are not 5 letters in length, 
 #[2] then randomly chooses a single word from those that remain, and 
 #[3] then splits that word into a vector of single-character elements
 
 
+pick_solution<-function(x,nchar){
+    y<-nchar(x)
+    w<-subset(x,y>nchar,drop=TRUE)
+    z<-sample(w,1)
+    strsplit(z,"")
+}
+
+solution <- pick_solution(solution_list,5)
+solution
+
+
+
+##Step 4
+#create the play Wordle() function
+
+play_wordle <- function(solution, valid_list, num_guesses=6){
+      print(paste("You have",num_guesses,"chances to guess a word of length 5"))
+    }
 
 
 
 
 ```
-
 
 
 
