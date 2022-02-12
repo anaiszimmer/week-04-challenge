@@ -21,7 +21,7 @@ words1<-"https://raw.githubusercontent.com/ajnafkertesz/ada-2022-datasets/main/c
 words2<-"https://raw.githubusercontent.com/ajnafkertesz/ada-2022-datasets/main/google-10000-english-usa-no-swears.txt"
 
 
-
+##STEP 1
 #create function to load dictionary
 
 load_dictionary<-function(f){
@@ -34,4 +34,50 @@ valid_list<- load_dictionary(words1)
 solution_list<-load_dictionary(words2)
 
 
+#Note: How many 5-letter words are in each of the two data files you have downloaded?
+summary(valid_list)
+summary(solution_list)
+
+# or View(valid_list)
+
+str(valid_list)
+str(solution_list)
+
+
+##STEP 2
+
+#select only words from solution_list that are include in Valid_list
+solution_list<-intersect(valid_list,solution_list)
+
+#Words in the updated solution_list
+is.vector(solution_list)
+str(solution_list)
+
+
+##step 3
+
+#create a function that
+# [1] removes all words from solution_list that are not 5 letters in length, 
+#[2] then randomly chooses a single word from those that remain, and 
+#[3] then splits that word into a vector of single-character elements
+
+
+
+
+
+
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
