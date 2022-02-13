@@ -78,11 +78,45 @@ solution
 #create the play Wordle() function
 
 play_wordle <- function(solution, valid_list, num_guesses=6){
+  # pick a solution
+  answer <- sample(valid_list, 1)
+  answerVec <- strsplit(answer, "")[[1]]
+  
       print(paste("You have",num_guesses,"chances to guess a word of length 5"))
+  guessCnt <- 0
+  lettersLeft <- toupper(LETTERS)
+   while (guessCnt < nGuesses) {
+    # display "keyboard"
+    print(paste(c("Letters left:", lettersLeft), collapse = " "))
+     
+ # read in guess
+    guessCnt <- guessCnt + 1
+    guess <- readline(paste0("Enter guess ", guessCnt, ": "))
+    while (nchar(guess) != wordLength) {
+      guess <- readline(paste0("Guess must have ", wordLength, " characters: "))
     }
+    guess <- toupper(guess)
+    guessVec <- strsplit(guess, "")[[1]]
+   
+  # evaluate guess and update keyboard
+    resVec <- evaluateGuess(guessVec, answerVec)
+    
+    # update keyboard
+    lettersLeft <- setdiff(lettersLeft, guessVec)
+    
+    # print result
+    print(paste(strsplit(guess, "")[[1]], collapse = " "))
+    print(paste(resVec, collapse = " "))
+    if (all(resVec == "G")) {
+      print("You won!")
+      return(guessCnt)
+    }
+  }
+  print(paste("Sorry, you lost! Answer was ", answer))
+  return(guessCnt)
+}
 
-
-
+play_wordle(valid_list)
 
 ```
 
