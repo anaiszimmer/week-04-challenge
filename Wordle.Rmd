@@ -97,9 +97,6 @@ play_wordle <- function(solution, valid_list, num_guesses=6){
     }
     guess <- toupper(guess)
     guessVec <- strsplit(guess, "")[[1]]
-   
-  # evaluate guess and update keyboard
-    resVec <- evaluateGuess(guessVec, answerVec)
     
     # update keyboard
     lettersLeft <- setdiff(lettersLeft, guessVec)
