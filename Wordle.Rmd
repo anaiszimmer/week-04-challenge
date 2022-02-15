@@ -72,7 +72,7 @@ str(solution_list)
 pick_solution<-function(x,num_letters){
     w<-solution_list[nchar(solution_list)==num_letters]  #AK edited this line, so only x letter words are chosen
     z<-sample(w,1)
-    strsplit(z,"")
+    strsplit(z,"")[[1]]
 }
 
 
@@ -86,25 +86,23 @@ solution <- pick_solution(solution_list,5)
 ##step 3.5 create helper function (AK added this to print out correctly what letters remain, because previously all letters of the guessed word were eliminated, which was incorrect)
 
 evaluateGuess <- function(guessVec, solution) {
-  
-  resVec <- rep("-", 5)
+  print(guessVec)
+  resVec <- rep("-", 5) 
   for (i in 1:5) {
     if (guessVec[i] == solution[i]) {
-      resVec[i] <- "G" #g for green for correct letter and place
-      solution[i] <- "-"
+      resVec[i] <- "*" 
     }
-  }
-    for (i in 1:5) {
-    if (resVec[i] != "G") {
-      idx <- match(guessVec[i], solution)
+    else {
+    if (resVec[i] != "*") {
+      idx <- match(guessVec[i], solution[i])
       if (!is.na(idx)) {
-        resVec[i] <- "Y" # y for yellow in correct letter at wrong place
-        solution[idx] <- "-"
+        resVec[i] <- "+"
+        }
       }
     }
   }
   
-  resVec
+  return( resVec)
 }
 
 #****************************
@@ -116,7 +114,7 @@ evaluateGuess <- function(guessVec, solution) {
 
 play_wordle <- function(solution, valid_list, num_guesses=6){
   # pick a solution    #Anais to Ajna: change for solution as we defined it before
-  solution <- pick_solution(solution_list,5)
+  # solution <- pick_solution(solution_list,5)
 
 
     #wordLength <- length(solution)
@@ -140,7 +138,13 @@ play_wordle <- function(solution, valid_list, num_guesses=6){
     resVec <- evaluateGuess(guessVec, solution)  #AK added in a helper function
   
  
-    lettersLeft<-setdiff(lettersLeft, guessVec) ##AK:I think this is the issue, because it now displays the alpahbet - ALL the letters in the guess, instead of only the Guess-solution letters. I tried to do that with this code, but it sill just eliminates all the letters in the guess...maybe I'm not understaingsing setdiff correctly....
+    #lettersLeft<-setdiff(lettersLeft, guessVec) #this removes all letters used in a guess
+   #lettersLeft<-setdiff(lettersLeft, setdiff(guessVec, solution)) # this doesn't remove anything
+    
+    notsolution<- setdiff(guessVec, solution)
+    lettersLeft<-setdiff(lettersLeft, notsolution)
+    
+    ##AK:I think this is the issue, because it now displays the alpahbet - ALL the letters in the guess, instead of only the Guess-solution letters. I tried to do that with this code, but it sill just eliminates all the letters in the guess...maybe I'm not understaingsing setdiff correctly....
 
     # print result
     print(paste(strsplit(guess, "")[[1]], collapse = " "))
@@ -154,7 +158,7 @@ play_wordle <- function(solution, valid_list, num_guesses=6){
   return(guessCnt)
 }
 
-play_wordle(valid_list)
+play_wordle(solution,valid_list)
 
 
 
