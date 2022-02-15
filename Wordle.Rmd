@@ -62,31 +62,18 @@ str(solution_list)
 #[3] then splits that word into a vector of single-character elements
 
 
-#pick_solution<-function(x,nchar{
-#    y<-nchar(x)
-#    w<-subset(x,y>nchar,drop=TRUE)
-#    z<-sample(w,1)
-#    strsplit(z,"")
-#}
 
 pick_solution<-function(x,num_letters){
-    w<-solution_list[nchar(solution_list)==num_letters]  #AK edited this line, so only x letter words are chosen
+    w<-solution_list[nchar(solution_list)==num_letters]  
     z<-sample(w,1)
     strsplit(z,"")[[1]]
 }
 
-
-
 solution <- pick_solution(solution_list,5)
 
-
-
-
-
-##step 3.5 create helper function (AK added this to print out correctly what letters remain, because previously all letters of the guessed word were eliminated, which was incorrect)
+##step 3.5 create helper function
 
 evaluateGuess <- function(guessVec, solution) {
-  print(guessVec)
   resVec <- rep("-", 5) 
   for (i in 1:5) {
     if (guessVec[i] == solution[i]) {
@@ -105,25 +92,15 @@ evaluateGuess <- function(guessVec, solution) {
   return( resVec)
 }
 
-#****************************
-# ANAIS' EDITS TO AJNA'S CODE , AK's further edits
-#***************************
 
 ##Step 4
 #create the play Wordle() function
 
 play_wordle <- function(solution, valid_list, num_guesses=6){
-  # pick a solution    #Anais to Ajna: change for solution as we defined it before
-  # solution <- pick_solution(solution_list,5)
-
-
-    #wordLength <- length(solution)
       print(paste("You have",num_guesses,"chances to guess a word of length of 5"))
   guessCnt <- 0
   lettersLeft <- toupper(LETTERS)
-   while (guessCnt < num_guesses) {                  #Anais to Ajna: using num_guesses as argument
-    # display "keyboard"
-    print(paste(c("Letters left:", lettersLeft), collapse = " "))
+   while (guessCnt < num_guesses) {                  
      
  # read in guess
     guessCnt <- guessCnt + 1
@@ -134,78 +111,28 @@ play_wordle <- function(solution, valid_list, num_guesses=6){
     guess <- toupper(guess)
     guessVec <- strsplit(guess, "")[[1]]
     
-    # evaluate guess and update keyboard
-    resVec <- evaluateGuess(guessVec, solution)  #AK added in a helper function
-  
- 
-    #lettersLeft<-setdiff(lettersLeft, guessVec) #this removes all letters used in a guess
-   #lettersLeft<-setdiff(lettersLeft, setdiff(guessVec, solution)) # this doesn't remove anything
-    
     notsolution<- setdiff(guessVec, solution)
     lettersLeft<-setdiff(lettersLeft, notsolution)
     
-    ##AK:I think this is the issue, because it now displays the alpahbet - ALL the letters in the guess, instead of only the Guess-solution letters. I tried to do that with this code, but it sill just eliminates all the letters in the guess...maybe I'm not understaingsing setdiff correctly....
+    print(paste(c("Letters left:", lettersLeft), collapse = " "))
+
+    
+    # evaluate guess and update keyboard
+    resVec <- evaluateGuess(guessVec, solution)  
+
 
     # print result
     print(paste(strsplit(guess, "")[[1]], collapse = " "))
-    print(paste(resVec, collapse = " "))   ### added lettersleft here, AK changed it back to resVec
-    if (all(resVec == "G")) {              ### added lettersleft here, AK changed it back to resVec
-      print("You won!")
-      return(guessCnt)
+    print(paste(resVec, collapse = " "))   
+    if (all(resVec == "*")) {              
+      print("You won! Your number of guesses was:")
+      return( guessCnt)
     }
   }
   print(paste("Sorry, you lost! Answer was ", solution))
-  return(guessCnt)
 }
 
 play_wordle(solution,valid_list)
-
-
-
-
-## 
-
-#Anais' original edits
-###Step 4
-##create the play Wordle() function
-#
-#play_wordle <- function(solution, valid_list, num_guesses=6){
-#  # Tell the rules of the game
-#  print(paste("You have",num_guesses,"chances to guess a word of length 5"))
-#  guessCnt <- 0
-#  lettersLeft <- toupper(LETTERS)
-#   while (guessCnt < num_guesses) {
-#    # display "keyboard"
-#    print(paste(c("Letters left:", lettersLeft), collapse = " "))
-#
-#     #Prompt the player for a guess number
-#     
-# # read in guess
-#    guessCnt <- guessCnt + 1
-#    guess <- readline(paste0("Enter guess ", guessCnt, ": "))
-#    while (nchar(guess) != wordLength) {
-#      guess <- readline(paste0("Guess must have ", wordLength, " characters: "))
-#    }
-#    guess <- toupper(guess)
-#    guessVec <- strsplit(guess, "")[[1]]
-#    
-#    # update keyboard
-#    lettersLeft <- setdiff(lettersLeft, guessVec)
-#    
-#    # print result
-#    print(paste(strsplit(guess, "")[[1]], collapse = " "))
-#    print(paste(resVec, collapse = " "))
-#    if (all(resVec == "G")) {
-#      print("You won!")
-#      return(guessCnt)
-#    }
-#  }
-#  print(paste("Sorry, you lost! Answer was ", answer))
-#  return(guessCnt)
-#}
-#
-#play_wordle(valid_list)
-#
 
 
 
