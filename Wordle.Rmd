@@ -70,7 +70,7 @@ str(solution_list)
 #}
 
 pick_solution<-function(x,num_letters){
-    w<-solution_list[nchar(solution_list)==num_letters]  #edited this line
+    w<-solution_list[nchar(solution_list)==num_letters]  #AK edited this line, so only x letter words are chosen
     z<-sample(w,1)
     strsplit(z,"")
 }
@@ -81,29 +81,24 @@ solution <- pick_solution(solution_list,5)
 
 
 
-#****************************
-# ANAIS' EDITS TO AJNA'S CODE
-#***************************
+
 
 ##step 3.5 create helper function (AK added this to print out correctly what letters remain, because previously all letters of the guessed word were eliminated, which was incorrect)
 
 evaluateGuess <- function(guessVec, solution) {
-  wordLength <- length(solution)
-  resVec <- rep("-", wordLength)
-  # first pass: mark exact matches (green)
-  for (i in 1:wordLength) {
+  
+  resVec <- rep("-", 5)
+  for (i in 1:5) {
     if (guessVec[i] == solution[i]) {
-      resVec[i] <- "G"
-      solution[i] <- "-"  # mark unavailable for yellow
+      resVec[i] <- "G" #g for green for correct letter and place
+      solution[i] <- "-"
     }
   }
-  
-  # second pass: mark yellow
-  for (i in 1:wordLength) {
+    for (i in 1:5) {
     if (resVec[i] != "G") {
       idx <- match(guessVec[i], solution)
       if (!is.na(idx)) {
-        resVec[i] <- "Y"
+        resVec[i] <- "Y" # y for yellow in correct letter at wrong place
         solution[idx] <- "-"
       }
     }
@@ -112,13 +107,20 @@ evaluateGuess <- function(guessVec, solution) {
   resVec
 }
 
+#****************************
+# ANAIS' EDITS TO AJNA'S CODE , AK's further edits
+#***************************
+
 ##Step 4
 #create the play Wordle() function
 
 play_wordle <- function(solution, valid_list, num_guesses=6){
   # pick a solution    #Anais to Ajna: change for solution as we defined it before
-  
-      print(paste("You have",num_guesses,"chances to guess a word of length 5"))
+  solution <- pick_solution(solution_list,5)
+
+
+    #wordLength <- length(solution)
+      print(paste("You have",num_guesses,"chances to guess a word of length of 5"))
   guessCnt <- 0
   lettersLeft <- toupper(LETTERS)
    while (guessCnt < num_guesses) {                  #Anais to Ajna: using num_guesses as argument
@@ -129,21 +131,21 @@ play_wordle <- function(solution, valid_list, num_guesses=6){
     guessCnt <- guessCnt + 1
     guess <- readline(paste0("Enter guess ", guessCnt, ": "))
     while (nchar(guess) != 5) {
-      guess <- readline(paste0("Guess must have ", 5, " characters: ")) ## wordLengh was not defined, so to make it easy for now I changed it for 5
+      guess <- readline(paste0("Guess must have ", wordLegth, " characters: "))
     }
     guess <- toupper(guess)
     guessVec <- strsplit(guess, "")[[1]]
     
     # evaluate guess and update keyboard
-    resVec <- evaluateGuess(guessVec, solution)  #added in a helper function
-    print(setdiff(solution, guessVec))
-    # update keyboard
-    lettersLeft <- setdiff(lettersLeft, setdiff(solution, guessVec))
-    
+    resVec <- evaluateGuess(guessVec, solution)  #AK added in a helper function
+  
+ 
+    lettersLeft<-setdiff(lettersLeft, guessVec) ##AK:I think this is the issue, because it now displays the alpahbet - ALL the letters in the guess, instead of only the Guess-solution letters. I tried to do that with this code, but it sill just eliminates all the letters in the guess...maybe I'm not understaingsing setdiff correctly....
+
     # print result
     print(paste(strsplit(guess, "")[[1]], collapse = " "))
-    print(paste(resVec, collapse = " "))   ### added lettersleft here
-    if (all(resVec == "G")) {              ### added lettersleft here
+    print(paste(resVec, collapse = " "))   ### added lettersleft here, AK changed it back to resVec
+    if (all(resVec == "G")) {              ### added lettersleft here, AK changed it back to resVec
       print("You won!")
       return(guessCnt)
     }
@@ -152,13 +154,14 @@ play_wordle <- function(solution, valid_list, num_guesses=6){
   return(guessCnt)
 }
 
-play_wordle(solution, valid_list)
+play_wordle(valid_list)
+
 
 
 
 ## 
 
-
+#Anais' original edits
 ###Step 4
 ##create the play Wordle() function
 #
