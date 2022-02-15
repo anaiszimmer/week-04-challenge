@@ -78,16 +78,142 @@ solution
 #create the play Wordle() function
 
 play_wordle <- function(solution, valid_list, num_guesses=6){
-  # pick a solution
+  # pick a solution                                               #Anais to Ajna: we already have an answer selected with solution, no?                                                                      and solution as to be here since it is an argument of the function
   answer <- sample(valid_list, 1)
   answerVec <- strsplit(answer, "")[[1]]
   
       print(paste("You have",num_guesses,"chances to guess a word of length 5"))
   guessCnt <- 0
   lettersLeft <- toupper(LETTERS)
-   while (guessCnt < nGuesses) {
+   while (guessCnt < nGuesses) {                  #Anais to Ajna: What is nGuesses, it is not define, we use num_guesses as argument
     # display "keyboard"
     print(paste(c("Letters left:", lettersLeft), collapse = " "))
+     
+ # read in guess
+    guessCnt <- guessCnt + 1
+    guess <- readline(paste0("Enter guess ", guessCnt, ": "))
+    while (nchar(guess) != wordLength) {          #Anais to Ajna: WordLength is not defined here
+      guess <- readline(paste0("Guess must have ", wordLength, " characters: "))
+    }
+    guess <- toupper(guess)
+    guessVec <- strsplit(guess, "")[[1]]
+    
+    # update keyboard
+    lettersLeft <- setdiff(lettersLeft, guessVec)
+    
+    # print result
+    print(paste(strsplit(guess, "")[[1]], collapse = " "))
+    print(paste(resVec, collapse = " "))
+    if (all(resVec == "G")) {                                            ##Anais to Ajna: what is resVec
+      print("You won!")
+      return(guessCnt)
+    }
+  }
+  print(paste("Sorry, you lost! Answer was ", answer)) ## should be solution too
+  return(guessCnt)
+}
+
+play_wordle(valid_list)
+
+
+
+#****************************
+# ANAIS' TRY
+#***************************
+
+##Step 4
+#create the play Wordle() function
+
+play_wordle <- function(solution, valid_list, num_guesses=6){
+  # pick a solution                                               #Anais to Ajna: change for solution as we defined it before
+  solution <- pick_solution(solution_list,5)
+  solution
+  
+      print(paste("You have",num_guesses,"chances to guess a word of length 5"))
+  guessCnt <- 0
+  lettersLeft <- toupper(LETTERS)
+   while (guessCnt < num_guesses) {                  #Anais to Ajna: using num_guesses as argument
+    # display "keyboard"
+    print(paste(c("Letters left:", lettersLeft), collapse = " "))
+     
+ # read in guess
+    guessCnt <- guessCnt + 1
+    guess <- readline(paste0("Enter guess ", guessCnt, ": "))
+    while (nchar(guess) != 5) {
+      guess <- readline(paste0("Guess must have ", 5, " characters: ")) ## wordLenght was not defined, so to make it easy for now I changed it for 5
+    }
+    guess <- toupper(guess)
+    guessVec <- strsplit(guess, "")[[1]]
+    
+    # update keyboard
+    lettersLeft <- setdiff(lettersLeft, guessVec)
+    
+    # print result
+    print(paste(strsplit(guess, "")[[1]], collapse = " "))
+    print(paste(lettersLeft, collapse = " "))   ### added lettersleft here
+    if (all(lettersLeft == "G")) {              ### added lettersleft here
+      print("You won!")
+      return(guessCnt)
+    }
+  }
+  print(paste("Sorry, you lost! Answer was ", solution))
+  return(guessCnt)
+}
+
+play_wordle(valid_list)
+
+
+
+## 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##Step 4
+#create the play Wordle() function
+
+play_wordle <- function(solution, valid_list, num_guesses=6){
+  # Tell the rules of the game
+  print(paste("You have",num_guesses,"chances to guess a word of length 5"))
+  guessCnt <- 0
+  lettersLeft <- toupper(LETTERS)
+   while (guessCnt < num_guesses) {
+    # display "keyboard"
+    print(paste(c("Letters left:", lettersLeft), collapse = " "))
+
+     #Prompt the player for a guess number
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
      
  # read in guess
     guessCnt <- guessCnt + 1
@@ -114,6 +240,11 @@ play_wordle <- function(solution, valid_list, num_guesses=6){
 }
 
 play_wordle(valid_list)
+
+
+
+
+
 
 ```
 
