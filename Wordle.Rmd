@@ -106,7 +106,7 @@ play_wordle <- function(solution, valid_list, num_guesses=6){
     guessCnt <- guessCnt + 1
     guess <- readline(paste0("Enter guess ", guessCnt, ": "))
     while (nchar(guess) != 5) {
-      guess <- readline(paste0("Guess must have ", wordLegth, " characters: "))
+      guess <- readline(paste0("Guess must have ", 5, " characters: "))
     }
     guess <- toupper(guess)
     guessVec <- strsplit(guess, "")[[1]]
